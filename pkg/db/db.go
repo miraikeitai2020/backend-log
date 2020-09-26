@@ -40,5 +40,5 @@ func Close(){
 
 func autoMigration() {
 	db.Set("gorm:table_options", "ENGINE=InnoDB")
-	db.AutoMigrate() // ここにマイグレートしたいモデルを構造体を入れる
+	db.AutoMigrate(&model.User{},&model.Userinfo{}, &model.Log{}) // ここにマイグレートしたいモデルを構造体を入れる
 }
