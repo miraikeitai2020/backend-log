@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+
+  api:
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      DB_USER: 'merihariko'
+      DB_PASS: 'okirahirem'
+      DB_IP: 'db'
+      DB_PORT: '3306'
+      DB_NAME: 'merihariko'
+    depends_on:
+      - 'db'
+
+  db:
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
+      - ./db/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'okirahirem'
+        MYSQL_DATABASE: 'merihariko'
+        MYSQL_USER: 'merihariko'
+        MYSQL_PASSWORD: 'okirahirem'
