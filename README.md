@@ -1,5 +1,5 @@
 # ap2-merihariko-backend
-<img src="https://user-images.githubusercontent.com/49857129/94939566-4aa56880-050d-11eb-9bbc-a5866a8fcd36.jpg" width="90%"><img src="https://user-images.githubusercontent.com/49857129/94939566-4aa56880-050d-11eb-9bbc-a5866a8fcd36.jpg" width="90%">
+<img src="https://user-images.githubusercontent.com/49857129/94939566-4aa56880-050d-11eb-9bbc-a5866a8fcd36.jpg" width="90%">
 
 ## プロジェクト概要
 - めりはりこのWebAPIのリポジトリです
