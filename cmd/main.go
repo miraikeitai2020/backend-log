@@ -5,7 +5,7 @@ import (
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/server"
 )
 
-func main(){
+func main() {
 	db.Init()
 	server.Init()
 	db.Close()
