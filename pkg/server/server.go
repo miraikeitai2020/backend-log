@@ -13,10 +13,7 @@ func Init() {
 func router() *gin.Engine {
 	r := gin.Default()
 
+	r.POST("/api/log", handler.HandleLogCreate())
 
-	log := r.Group("/log")
-	{
-		log.POST("/create", handler.HandleLogCreate())
-	}
 	return r
 }
