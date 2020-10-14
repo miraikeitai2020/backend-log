@@ -5,11 +5,11 @@ import (
 )
 
 type Log struct {
-	ID            int `gorm:"primary_key"`
+	ID            string `gorm:"primary_key"`
 	UserID        int
 	Date          time.Time
 	Worktime      time.Time
-	Concentration byte
+	Concentration []float64
 }
 
 type User struct {
