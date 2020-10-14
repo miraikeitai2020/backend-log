@@ -11,14 +11,13 @@ import (
 func HandleLogCreate() gin.HandlerFunc{
 	return func(c *gin.Context){
 
-		Log := model.Log{}
-
 		logID, err := uuid.NewRandom()
 		if err != nil {
 			log.Println(err)
 			c.String(http.StatusInternalServerError, err.Error())
 			return
 		}
+		Log := model.Log{}
 		Log.ID = logID.String()
 
 		// ここに処理を書いていく
