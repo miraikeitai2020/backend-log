@@ -3,7 +3,6 @@ package db
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/server/model"
 )
 
 var (
@@ -11,7 +10,7 @@ var (
 	err error
 )
 
-func Init() {
+func Init(models ...interface{}) {
 	DBMS := "mysql"
 	USER := "root"
 	PASS := "okirahirem"
@@ -23,7 +22,7 @@ func Init() {
 		panic(err.Error())
 	}
 
-	autoMigration()
+	autoMigration(models...)
 
 	db.LogMode(true)
 }
@@ -38,7 +37,7 @@ func Close(){
 	}
 }
 
-func autoMigration() {
+func autoMigration(models ...interface{}) {
 	db.Set("gorm:table_options", "ENGINE=InnoDB")
-	db.AutoMigrate(&model.User{},&model.Userinfo{}, &model.Log{}) // ここにマイグレートしたいモデルを構造体を入れる
+	db.AutoMigrate(models...) // ここにマイグレートしたいモデルを構造体を入れる
 }

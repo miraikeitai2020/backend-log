@@ -20,9 +20,15 @@ func HandleLogCreate() gin.HandlerFunc{
 		Log := model.Log{}
 		Log.ID = logID.String()
 
+		if err := c.BindJSON(&Log); err != nil {
+			c.String(http.StatusBadRequest, "Request is failed: "+ err.Error())
+		}
+
+		Log.Create()
+
 		// ここに処理を書いていく
 		c.JSON(200, gin.H{
-			"log_id":"asdfghjkl",
+			"log_id":"asdfghjkl",// モックデータ
 		})
 	}
 }
