@@ -1,18 +1,18 @@
 package model
 
-import(
+import (
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/db"
-	"time"
 )
 
 type Log struct {
-	ID            string `gorm:"primary_key"`
-	UserID        int
-	Date          time.Time
-	Worktime      int
-	Concentration []float64
-	Workname	string
+	LogID            string `gorm:"primary_key"`
+	UserID        string
+	Date          string
+	WorkTime      string
+	Concentration string
+	LogName	string
 }
+
 
 func (l *Log) Create() (e error){
 	database := db.GetDB()
