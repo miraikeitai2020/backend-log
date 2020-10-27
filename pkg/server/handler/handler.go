@@ -7,8 +7,6 @@ import (
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/utils"
 	"log"
 	"net/http"
-	"strconv"
-	"strings"
 )
 
 func HandleLogCreate() gin.HandlerFunc {
@@ -29,22 +27,8 @@ func HandleLogCreate() gin.HandlerFunc {
 			c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
 		}
 
-		// requestで受け取ったデータをそのままブチ込める奴はここでブチ込む
-		Log.UserID = request.UserID
-		Log.LogName = request.LogName
-
-		// requestで受け取ったdatetime型をstringに変換してLogにブチ込む
-		Log.Date = request.Date.String()
-		Log.WorkTime = request.WorkTime.String()
-
-		// concentrationを文字列化し，結合する
-		var list []string
-		for i := range request.Concentration {
-			list = append(list, strconv.FormatFloat(request.Concentration[i], 'f', -1, 64))
-		}
-		Log.Concentration = strings.Join(list, ",")
-
-		Log.UserID = request.UserID
+		// requestを成形してmodel.Logに渡す
+		request.ParseModel(&Log)
 
 		// INSERT INTO `logs` (`log_id`,`user_id`,`date`,`work_time`,`concentration`,`log_name`) VALUES ('','','','','','')
 		Log.Create()
