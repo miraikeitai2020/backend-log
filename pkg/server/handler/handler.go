@@ -41,4 +41,11 @@ func HandleLogCreate() gin.HandlerFunc {
 		// ここに処理を書いていく
 		c.JSON(200, response)
 	}
+
+}
+
+func HandleLogGet() gin.HandlerFunc{
+	return func (c *gin.Context) {
+		c.JSON(200,gin.H{})
+	}
 }
