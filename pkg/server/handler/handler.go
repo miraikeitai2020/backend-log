@@ -46,9 +46,11 @@ func HandleLogCreate() gin.HandlerFunc {
 
 func HandleLogsGet() gin.HandlerFunc{
 	return func(c *gin.Context){
+		// headerからuser_idを持ってくる
 		Log := model.Log{}
 		Log.UserID = c.Request.Header.Get("x-token")
 		fmt.Println("user_id = " + Log.UserID)
+
 		logIDs := Log.FindAllLogIDByUserID()
 		res := view.ResponseGetLogs{}
 		for _, id := range logIDs {

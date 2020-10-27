@@ -52,8 +52,10 @@ func NewResponseCreateLog(log *model.Log) *ResponseCreateLog{
 	return response
 }
 
+/*
 func NewResponseGetLogs(log *model.Log) *ResponseGetLogs{
 	response := &ResponseGetLogs{
 	}
 	return response
 }
+*/
