@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/db"
 )
 
@@ -13,9 +14,25 @@ type Log struct {
 	LogName       string
 }
 
-func (l *Log) Create() (e error) {
+func (l *Log) Create() error{
 	database := db.GetDB()
 	return database.Create(l).Error
+}
+
+func (l *Log) FindAllLogIDByUserID() []string {
+	database := db.GetDB()
+	var LogID []string
+	database.Where("user_id = ?",l.UserID).Model(&Log{}).Pluck("log_id",LogID)
+	fmt.Println(LogID)
+	return LogID
+}
+
+func (l *Log) FindLogNameByLogID(s string) string{
+	database := db.GetDB()
+	var LogName string
+	database.Where("log_id = ?", s).Select("log_name").Find(LogName)
+	fmt.Println(LogName)
+	return LogName
 }
 
 

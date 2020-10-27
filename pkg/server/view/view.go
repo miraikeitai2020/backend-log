@@ -19,6 +19,15 @@ type ResponseCreateLog struct {
 	LogID string
 }
 
+type LogWithIDAndName struct{
+	LogID string
+	LogName string
+}
+
+type ResponseGetLogs struct {
+	IDAndNames []LogWithIDAndName
+}
+
 func (req *RequestCreateLog)ParseModel(log *model.Log){
 	// requestで受け取ったデータをそのままブチ込める奴はここでブチ込む
 	log.UserID = req.UserID
@@ -43,3 +52,8 @@ func NewResponseCreateLog(log *model.Log) *ResponseCreateLog{
 	return response
 }
 
+func NewResponseGetLogs(log *model.Log) *ResponseGetLogs{
+	response := &ResponseGetLogs{
+	}
+	return response
+}

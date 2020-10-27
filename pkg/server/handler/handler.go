@@ -40,3 +40,11 @@ func HandleLogCreate() gin.HandlerFunc {
 		c.JSON(200, response)
 	}
 }
+
+func HandleLogsGet() gin.HandlerFunc{
+	return func(c *gin.Context){
+		Log := model.Log{}
+		response := view.NewResponseGetLogs(&Log)
+		c.JSON(200,response )
+	}
+}
