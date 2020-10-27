@@ -8,7 +8,7 @@ type Log struct {
 	LogID         string `gorm:"primary_key"`
 	UserID        string
 	Date          string
-	WorkTime      string
+	WorkTime      int
 	Concentration string
 	LogName       string
 }

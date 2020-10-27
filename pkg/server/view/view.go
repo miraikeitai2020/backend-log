@@ -10,7 +10,7 @@ import (
 type RequestCreateLog struct {
 	UserID        string
 	Date          time.Time
-	WorkTime      time.Time
+	WorkTime      int
 	Concentration []float64
 	LogName       string
 }
@@ -23,10 +23,10 @@ func (req *RequestCreateLog)ParseModel(log *model.Log){
 	// requestで受け取ったデータをそのままブチ込める奴はここでブチ込む
 	log.UserID = req.UserID
 	log.LogName = req.LogName
+	log.WorkTime = req.WorkTime
 
 	// requestで受け取ったdatetime型をstringに変換してLogにブチ込む
 	log.Date = req.Date.String()
-	log.WorkTime = req.WorkTime.String()
 
 	// concentrationを文字列化し，結合する
 	var list []string
