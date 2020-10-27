@@ -5,19 +5,20 @@ import (
 )
 
 type Log struct {
-	LogID            string `gorm:"primary_key"`
+	LogID         string `gorm:"primary_key"`
 	UserID        string
 	Date          string
 	WorkTime      string
 	Concentration string
-	LogName	string
+	LogName       string
 }
 
-
-func (l *Log) Create() (e error){
+func (l *Log) Create() (e error) {
 	database := db.GetDB()
 	return database.Create(l).Error
 }
+
+
 
 /*
 type User struct {
