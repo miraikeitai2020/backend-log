@@ -22,17 +22,18 @@ func (l *Log) Create() error{
 func (l *Log) FindAllLogIDByUserID() []string {
 	database := db.GetDB()
 	var LogID []string
-	database.Where("user_id = ?",l.UserID).Model(&Log{}).Pluck("log_id",LogID)
+	database.Debug().Where("user_id = ?",l.UserID).Model(&Log{}).Pluck("log_id",&LogID)
 	fmt.Println(LogID)
 	return LogID
 }
 
-func (l *Log) FindLogNameByLogID(s string) string{
+func (l *Log) FindByLogID(s string) *Log{
 	database := db.GetDB()
-	var LogName string
-	database.Where("log_id = ?", s).Select("log_name").Find(LogName)
+	var LogName []string
+	var log Log
+	database.Where("log_id = ?", s).Find(&log)
 	fmt.Println(LogName)
-	return LogName
+	return &log
 }
 
 

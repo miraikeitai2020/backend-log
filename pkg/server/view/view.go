@@ -19,13 +19,13 @@ type ResponseCreateLog struct {
 	LogID string
 }
 
-type LogWithIDAndName struct{
+type Logs struct{
 	LogID string
 	LogName string
 }
 
 type ResponseGetLogs struct {
-	IDAndNames []LogWithIDAndName
+	Logs []Logs
 }
 
 func (req *RequestCreateLog)ParseModel(log *model.Log){

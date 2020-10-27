@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/server/model"
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/server/view"
@@ -44,7 +45,15 @@ func HandleLogCreate() gin.HandlerFunc {
 func HandleLogsGet() gin.HandlerFunc{
 	return func(c *gin.Context){
 		Log := model.Log{}
-		response := view.NewResponseGetLogs(&Log)
-		c.JSON(200,response )
+		Log.UserID = c.Request.Header.Get("x-token")
+		fmt.Println("user_id = " + Log.UserID)
+		logIDs := Log.FindAllLogIDByUserID()
+		res := view.ResponseGetLogs{}
+		for _, id := range logIDs {
+			log := Log.FindByLogID(id)
+			LWIA := view.Logs{LogID: id,LogName: log.LogName}
+			res.Logs = append(res.Logs, LWIA)
+		}
+		c.JSON(200,res )
 	}
 }
