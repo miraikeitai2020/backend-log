@@ -22,10 +22,12 @@ func HandleLogCreate() gin.HandlerFunc {
 		}
 
 		// requestをバインドする
+		userid := c.Request.Header.Get("x-token")
 		request := view.RequestCreateLog{}
 		if err := c.BindJSON(&request); err != nil {
 			c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
 		}
+		request.UserID = userid
 
 		// requestを成形してmodel.Logに渡す
 		request.ParseModel(&Log)
