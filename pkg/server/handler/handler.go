@@ -46,6 +46,8 @@ func HandleLogCreate() gin.HandlerFunc {
 
 func HandleLogGet() gin.HandlerFunc{
 	return func (c *gin.Context) {
+		log_id := c.Request.Header.Get("x-token")
+
 		c.JSON(200,gin.H{})
 	}
 }
