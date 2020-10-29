@@ -66,7 +66,7 @@ func HandleLogsGet() gin.HandlerFunc{
 		}
 		res := view.ResponseGetLogs{}
 		for _, id := range logIDs {
-			Logs, err:= Log.FindByLogID(id)
+			Logs, err:= Log.FindByLogID()
 			if err != nil {
 				log.Println(err)
 				c.String(http.StatusInternalServerError, err.Error())

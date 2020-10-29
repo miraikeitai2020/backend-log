@@ -32,10 +32,10 @@ func (l *Log) FindAllLogIDByUserID() ([]string, error) {
 	return LogID, nil
 }
 
-func (l *Log) FindByLogID(s string) (*Log, error){
+func (l *Log) FindByLogID() (*Log, error){
 	database := db.GetDB()
 	var log Log
-	database.Where("log_id = ?", s).Find(&log)
+	database.Where("log_id = ?", l.LogID).Find(&log)
 	if &log == nil {
 		return nil, dbError()
 	}
