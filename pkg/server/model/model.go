@@ -1,6 +1,7 @@
 package model
 
 import (
+	"errors"
 	"fmt"
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/db"
 )
@@ -19,23 +20,30 @@ func (l *Log) Create() error{
 	return database.Create(l).Error
 }
 
-func (l *Log) FindAllLogIDByUserID() []string {
+func (l *Log) FindAllLogIDByUserID() ([]string, error) {
 	database := db.GetDB()
 	var LogID []string
 	database.Debug().Where("user_id = ?",l.UserID).Model(&Log{}).Pluck("log_id",&LogID)
+	// エラーハンドリングをしたい
+	if LogID == nil {
+		return nil, dbError()
+	}
 	fmt.Println(LogID)
-	return LogID
+	return LogID, nil
 }
 
-func (l *Log) FindByLogID(s string) *Log{
+func (l *Log) FindByLogID(s string) (*Log, error){
 	database := db.GetDB()
-	var LogName []string
 	var log Log
 	database.Where("log_id = ?", s).Find(&log)
-	fmt.Println(LogName)
-	return &log
+	if &log == nil {
+		return nil, dbError()
+	}
+	return &log, nil
 }
-
+func dbError() error{
+	return errors.New("Database related error")
+}
 
 
 /*

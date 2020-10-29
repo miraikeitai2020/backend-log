@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/server/model"
@@ -49,13 +50,29 @@ func HandleLogsGet() gin.HandlerFunc{
 		// headerからuser_idを持ってくる
 		Log := model.Log{}
 		Log.UserID = c.Request.Header.Get("x-token")
+		if Log.UserID == "" {
+			err := errors.New("Please enter x-token")
+			log.Println(err)
+			c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+			return
+		}
 		fmt.Println("user_id = " + Log.UserID)
 
-		logIDs := Log.FindAllLogIDByUserID()
+		logIDs, err := Log.FindAllLogIDByUserID()
+		if err != nil {
+			log.Println(err)
+			c.String(http.StatusInternalServerError, err.Error())
+			return
+		}
 		res := view.ResponseGetLogs{}
 		for _, id := range logIDs {
-			log := Log.FindByLogID(id)
-			LWIA := view.Logs{LogID: id,LogName: log.LogName}
+			Logs, err:= Log.FindByLogID(id)
+			if err != nil {
+				log.Println(err)
+				c.String(http.StatusInternalServerError, err.Error())
+				return
+			}
+			LWIA := view.Logs{LogID: id,LogName: Logs.LogName}
 			res.Logs = append(res.Logs, LWIA)
 		}
 		c.JSON(200,res )
