@@ -28,6 +28,13 @@ type ResponseGetLogs struct {
 	Logs []Logs
 }
 
+type ResponseGetLog struct {
+	Date time.Time
+	WorkTime int
+	Concentration []float64
+	LogName string
+}
+
 func (req *RequestCreateLog)ParseModel(log *model.Log){
 	// requestで受け取ったデータをそのままブチ込める奴はここでブチ込む
 	log.UserID = req.UserID

@@ -65,6 +65,7 @@ func HandleLogGet() gin.HandlerFunc{
 			return
 		}
 
+
 		c.JSON(200,gin.H{})
 	}
 }
