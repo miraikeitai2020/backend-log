@@ -2,6 +2,7 @@ package view
 
 import (
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/server/model"
+	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/utils"
 	"strconv"
 	"strings"
 	"time"
@@ -60,10 +61,11 @@ func NewResponseCreateLog(log *model.Log) *ResponseCreateLog{
 }
 
 func NewResponseGetLog(log *model.Log) *ResponseGetLog{
-
-
 	response := &ResponseGetLog{
-
+		Date: utils.StringToTime(log.Date),
+		WorkTime: log.WorkTime,
+		Concentration: utils.StringToFloatList(log.Concentration),
+		LogName: log.LogName,
 	}
 	return response
 }

@@ -65,8 +65,6 @@ func HandleLogGet() gin.HandlerFunc{
 			return
 		}
 		res := view.NewResponseGetLog(Logs)
-
-
 		c.JSON(200,res)
 	}
 }
