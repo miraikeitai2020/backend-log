@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/server/model"
@@ -19,7 +18,12 @@ func HandleLogCreate() gin.HandlerFunc { // ログ情報追加
 		Log.LogID, err = utils.CreateUUIDToken()
 		if err != nil {
 			log.Println(err)
-			c.String(http.StatusInternalServerError, err.Error())
+			view.NewErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"Internal Server Error",
+				"Cannot create token",
+				)
 			return
 		}
 
@@ -27,7 +31,14 @@ func HandleLogCreate() gin.HandlerFunc { // ログ情報追加
 		userid := c.Request.Header.Get("x-token")
 		request := view.RequestCreateLog{}
 		if err := c.BindJSON(&request); err != nil {
-			c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+			log.Println(err)
+			view.NewErrorResponse(
+				c,
+				http.StatusBadRequest,
+				"Bad Request",
+				"Request is failed:" + err.Error(),
+				)
+			return
 		}
 		request.UserID = userid
 
@@ -38,34 +49,41 @@ func HandleLogCreate() gin.HandlerFunc { // ログ情報追加
 		Log.Create()
 
 		// responseの成形
-		response := view.NewResponseCreateLog(&Log)
+		view.NewResponseCreateLog(c, &Log)
 
-		// ここに処理を書いていく
-		c.JSON(200, response)
 	}
 
 }
 
 func HandleLogGet() gin.HandlerFunc{ // ログ情報単体取得
 	return func (c *gin.Context) {
-		Log := model.Log{}
-		Log.LogID = c.Request.Header.Get("x-token")
-		if Log.LogID == "" {
-			err := errors.New("Please enter x-token")
-			log.Println(err)
-			c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+
+		LogID := c.Request.Header.Get("x-token")
+		if LogID == "" {
+			log.Println("x-token is empty")
+			view.NewErrorResponse(
+				c,
+				http.StatusBadRequest,
+				"Bad Request",
+				"Please enter x-token",
+				)
 			return
 		}
-		fmt.Println("log_id = " + Log.LogID)
+		fmt.Println("log_id = " + LogID)
 
-		Logs, err := Log.FindByLogID(Log.LogID)
+		Logs, err := model.FindByLogID(LogID)
 		if err != nil {
 			log.Println(err)
-			c.String(http.StatusInternalServerError, err.Error())
+			view.NewErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"Internal Server Error",
+				"Database related error",
+				)
 			return
 		}
-		res := view.NewResponseGetLog(Logs)
-		c.JSON(200,res)
+		view.NewResponseGetLog(c,Logs)
+
 	}
 }
 
@@ -75,9 +93,13 @@ func HandleLogsGet() gin.HandlerFunc{ // ログ情報一覧取得
 		Log := model.Log{}
 		Log.UserID = c.Request.Header.Get("x-token")
 		if Log.UserID == "" {
-			err := errors.New("Please enter x-token")
-			log.Println(err)
-			c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+			log.Println("x-token is empty")
+			view.NewErrorResponse(
+				c,
+				http.StatusBadRequest,
+				"Bad Request",
+				"Please enter x-token",
+			)
 			return
 		}
 		fmt.Println("user_id = " + Log.UserID)
@@ -85,16 +107,26 @@ func HandleLogsGet() gin.HandlerFunc{ // ログ情報一覧取得
 		logIDs, err := Log.FindAllLogIDByUserID()
 		if err != nil {
 			log.Println(err)
-			c.String(http.StatusInternalServerError, err.Error())
+			view.NewErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"Internal Server Error",
+				"Database related error",
+				)
 			return
 		}
 
 		res := view.ResponseGetLogs{}
 		for _, id := range logIDs {
-			Logs, err:= Log.FindByLogID(id)
+			Logs, err:= model.FindByLogID(id)
 			if err != nil {
 				log.Println(err)
-				c.String(http.StatusInternalServerError, err.Error())
+				view.NewErrorResponse(
+					c,
+					http.StatusInternalServerError,
+					"Internal Server Error",
+					"Database related error",
+					)
 				return
 			}
 			LWIA := view.Logs{LogID: id,LogName: Logs.LogName}

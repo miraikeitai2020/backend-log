@@ -1,12 +1,19 @@
 package view
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/server/model"
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/utils"
 	"strconv"
 	"strings"
 	"time"
 )
+
+type Error struct {
+	Code		int		`json:"code"`
+	Message		string	`json:"message"`
+	Description	string	`json:"description"`
+}
 
 type RequestCreateLog struct {
 	UserID        string
@@ -53,21 +60,32 @@ func (req *RequestCreateLog)ParseModel(log *model.Log){
 	log.Concentration = strings.Join(list, ",")
 }
 
-func NewResponseCreateLog(log *model.Log) *ResponseCreateLog{
+func NewResponseCreateLog(c *gin.Context, log *model.Log) {
 	response := &ResponseCreateLog{
 		LogID: log.LogID,
 	}
-	return response
+	c.JSON(200, response)
 }
 
-func NewResponseGetLog(log *model.Log) *ResponseGetLog{
+
+
+func NewResponseGetLog(c *gin.Context,log *model.Log){
 	response := &ResponseGetLog{
 		Date: utils.StringToTime(log.Date),
 		WorkTime: log.WorkTime,
 		Concentration: utils.StringToFloatList(log.Concentration),
 		LogName: log.LogName,
 	}
-	return response
+	c.JSON(200, response)
+}
+
+func NewErrorResponse(cxt *gin.Context, code int, msg, desc string) {
+	body := Error{
+		Code: code,
+		Message: msg,
+		Description: desc,
+	}
+	cxt.JSON(code, body)
 }
 /*
 func NewResponseGetLogs(log *model.Log) *ResponseGetLogs{

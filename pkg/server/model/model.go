@@ -35,15 +35,16 @@ func (l *Log) FindAllLogIDByUserID() ([]string, error) {
 	return LogID, nil
 }
 
-func (l *Log) FindByLogID(LogID string) (*Log, error){
+func FindByLogID(LogID string) (*Log, error){
 	database := db.GetDB()
 	var log Log
 	database.Where("log_id = ?", LogID).Find(&log)
-	if &log == nil {
+	if log.LogName == "" || log.UserID== "" || log.Concentration == "" || log.WorkTime == 0 {
 		return nil, dbError()
 	}
 	return &log, nil
 }
+
 func dbError() error{
 	return errors.New("Database related error")
 }
