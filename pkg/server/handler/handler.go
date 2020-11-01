@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-func HandleLogCreate() gin.HandlerFunc {
+func HandleLogCreate() gin.HandlerFunc { // ログ情報追加
 	return func(c *gin.Context) {
 		// uuidの生成とLogにstringで保存する処理をかく
 		Log:= model.Log{}
@@ -46,7 +46,7 @@ func HandleLogCreate() gin.HandlerFunc {
 
 }
 
-func HandleLogGet() gin.HandlerFunc{
+func HandleLogGet() gin.HandlerFunc{ // ログ情報単体取得
 	return func (c *gin.Context) {
 		Log := model.Log{}
 		Log.LogID = c.Request.Header.Get("x-token")
@@ -58,7 +58,7 @@ func HandleLogGet() gin.HandlerFunc{
 		}
 		fmt.Println("log_id = " + Log.LogID)
 
-		Logs, err := Log.FindByLogID()
+		Logs, err := Log.FindByLogID(Log.LogID)
 		if err != nil {
 			log.Println(err)
 			c.String(http.StatusInternalServerError, err.Error())
@@ -69,7 +69,7 @@ func HandleLogGet() gin.HandlerFunc{
 	}
 }
 
-func HandleLogsGet() gin.HandlerFunc{
+func HandleLogsGet() gin.HandlerFunc{ // ログ情報一覧取得
 	return func(c *gin.Context){
 		// headerからuser_idを持ってくる
 		Log := model.Log{}
@@ -88,9 +88,10 @@ func HandleLogsGet() gin.HandlerFunc{
 			c.String(http.StatusInternalServerError, err.Error())
 			return
 		}
+
 		res := view.ResponseGetLogs{}
 		for _, id := range logIDs {
-			Logs, err:= Log.FindByLogID()
+			Logs, err:= Log.FindByLogID(id)
 			if err != nil {
 				log.Println(err)
 				c.String(http.StatusInternalServerError, err.Error())

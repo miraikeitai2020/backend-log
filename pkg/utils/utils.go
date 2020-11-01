@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"github.com/google/uuid"
 	"log"
 	"strconv"
@@ -31,4 +33,9 @@ func StringToFloatList(str string) []float64{
 		f = append(f, n)
 	}
 	return f
+}
+
+func CreateHashString(str string) string {
+	sum := sha256.Sum256([]byte(str))
+	return strings.ToUpper(hex.EncodeToString(sum[:]))
 }
