@@ -64,9 +64,10 @@ func HandleLogGet() gin.HandlerFunc{
 			c.String(http.StatusInternalServerError, err.Error())
 			return
 		}
+		res := view.NewResponseGetLog(Logs)
 
 
-		c.JSON(200,gin.H{})
+		c.JSON(200,res)
 	}
 }
 
