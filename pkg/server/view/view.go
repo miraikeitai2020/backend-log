@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/server/model"
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/utils"
+	"net/http"
 	"strconv"
 	"strings"
 	"time"
@@ -64,7 +65,7 @@ func NewResponseCreateLog(c *gin.Context, log *model.Log) {
 	response := &ResponseCreateLog{
 		LogID: log.LogID,
 	}
-	c.JSON(200, response)
+	c.JSON(http.StatusOK, response)
 }
 
 
@@ -76,7 +77,7 @@ func NewResponseGetLog(c *gin.Context,log *model.Log){
 		Concentration: utils.StringToFloatList(log.Concentration),
 		LogName: log.LogName,
 	}
-	c.JSON(200, response)
+	c.JSON(http.StatusOK, response)
 }
 
 func NewErrorResponse(cxt *gin.Context, code int, msg, desc string) {
