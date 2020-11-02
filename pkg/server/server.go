@@ -14,8 +14,10 @@ func router() *gin.Engine {
 	r := gin.Default()
 
 	r.POST("/api/log", handler.HandleLogCreate())
-	//r.GET("/api/log", handler.HandleLogGet())
+
+	r.GET("/api/log", handler.HandleLogGet())
+
 	r.GET("/api/logs", handler.HandleLogsGet())
-	// r.
+
 	return r
 }

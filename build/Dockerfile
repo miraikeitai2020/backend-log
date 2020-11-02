@@ -6,7 +6,7 @@ RUN go build -o server main.go
 
 FROM alpine:latest
 RUN apk add --no-cache --update ca-certificates
-COPY --from=build-env /go/src/github.com/miraikeitai2020/backend-spot/server /usr/local/bin/server
+COPY --from=build-env /go/src/github.com/miraikeitai2020/backend-log/server /usr/local/bin/server
 ENV PORT 8080
 
 EXPOSE 8080
