@@ -20,7 +20,7 @@ func Init(models ...interface{}) {
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME
 	*/
 	dbms := "mysql"
-	connect := "b76627ce158cf5:13b3cecb@tcp(us-cdbr-east-02.cleardb.com:3306)/heroku_331a3da834c9b7e?parseTime=true"
+	connect := "bd2029273294f9:0006c7ff@tcp(us-cdbr-east-02.cleardb.com:3306)/heroku_4b8ea9c6a140afa?parseTime=true"
 	db, err = gorm.Open(dbms, connect)
 	if err != nil {
 		panic(err.Error())
