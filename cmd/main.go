@@ -8,6 +8,10 @@ import (
 
 func main() {
 	db.Init(model.Log{})
+	//
+	/*if err := db.Init(model.Log{}); err != nil {
+		log.Panic("DB connection error")
+	}*/
 	server.Init()
 	db.Close()
 }
