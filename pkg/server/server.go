@@ -3,11 +3,22 @@ package server
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/miraikeitai2020/ap2-merihariko-backend/pkg/server/handler"
+	"net/http"
+	"fmt"
+	"os"
+	"github.com/joho/godotenv"
 )
 
 func Init() {
 	r := router()
-	r.Run()
+
+	EnvErr := godotenv.Load(fmt.Sprintf("./%s.env", os.Getenv("GO_ENV")))
+	if EnvErr != nil {
+		http.ListenAndServe(":8080", r)
+	} else {
+		r.Run(":9000")
+	}
+
 }
 
 func router() *gin.Engine {
