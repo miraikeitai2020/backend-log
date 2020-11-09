@@ -1,2 +1,2 @@
-web: backend-log
+web: bin/backend-log
 
