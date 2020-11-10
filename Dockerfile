@@ -11,4 +11,4 @@ RUN go build -o server main.go
 FROM alpine
 COPY --from=builder /go/src/github.com/miraikeitai2020/backend-log/server /app
 
-CMD /app/main $PORT
+CMD /app $PORT
